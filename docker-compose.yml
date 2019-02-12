@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web:
+    image: nginx
+    ports:
+      - ${WEB_PORT:-80}:80
+    volumes:
+      - "./:/var/www/app:ro"
+      - "./docker/web/vhost.conf:/etc/nginx/conf.d/default.conf:ro"
+    env_file:
+      - .env.default
+      - .env
+
+  app:
+    image: php:fpm
+    volumes:
+      - "./:/var/www/app"
+    env_file:
+      - .env.default
+      - .env
